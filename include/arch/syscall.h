@@ -1,6 +1,8 @@
 #ifndef _ARCH_SYSCALLTPL
 #define _ARCH_SYSCALLTPL
 
+#include <stdint.h>
+
 #include <arch/arch.h>
 #include <ppmp/loop.h>
 
@@ -30,6 +32,10 @@ typedef long (*syscall_t)(...);
  */
 extern syscall_t syscall(syscall_type type, void* mem, long syscall_num, unsigned short syscall_clean = 0);
 
+/**
+ * @brief syscall函数的大小
+ */
+extern size_t syscall_size(syscall_type type);
 }
 
 #endif//_ARCH_SYSCALLTPL

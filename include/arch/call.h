@@ -4,7 +4,7 @@
 #include <stdint.h>
 
 #include "arch.h"
-#include "asm_def.h"
+#include "asm_defs.h"
 
 // 操作系统保留内存，所有系统均保留第一页（地址0~4095）
 #if !defined(__os_reserved_addr__)

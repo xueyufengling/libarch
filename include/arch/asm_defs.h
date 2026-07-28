@@ -1,12 +1,13 @@
-#ifndef _ARCH_ASMDEF
-#define _ARCH_ASMDEF
+#ifndef _ARCH_ASMDEFS
+#define _ARCH_ASMDEFS
 
 /**
  * 指令操作
  */
-
-#include "asm.h"
 #include <stdint.h>
+
+#include "arch.h"
+#include "asm.h"
 
 namespace arch
 {
@@ -465,4 +466,4 @@ __attribute__((always_inline)) inline void __wgs(uint64_t offset, void* value)
 
 }
 
-#endif //_ARCH_ASMDEF
+#endif //_ARCH_ASMDEFS
