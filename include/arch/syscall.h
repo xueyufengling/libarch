@@ -2,6 +2,7 @@
 #define _ARCH_SYSCALLTPL
 
 #include <stdint.h>
+#include <string.h>
 
 #include <arch/arch.h>
 #include <ppmp/loop.h>
@@ -24,18 +25,37 @@ __syscall_type_enum_def__(syscall_type, __syscall_types_arch_os__())
 #undef __syscall_type_enum_def__
 #undef __syscall_type_enum_def_op__
 
-typedef long (*syscall_t)(...);
-
 /**
- * @brief 根据调用号在指定内存位置构造一个syscall函数。
- * 		  该内存必须有执行权限才能调用。
+ * @brief 指定返回值类型的syscall函数指针
  */
-extern syscall_t syscall(syscall_type type, void* mem, long syscall_num, unsigned short syscall_clean = 0);
+template<typename _RetType = long>
+using syscall_t = _RetType (*)(...);
 
 /**
  * @brief syscall函数的大小
  */
 extern size_t syscall_size(syscall_type type);
+
+extern size_t syscall_no_offset(syscall_type type);
+
+extern size_t syscall_cl_offset(syscall_type type);
+
+extern const void* syscall_tpl(syscall_type type);
+
+/**
+ * @brief 根据调用号在指定内存位置构造一个syscall函数。
+ * 		  该内存必须有执行权限才能调用。
+ */
+template<typename _RetType = long, typename _SyscallNo = long, typename _StackClean = unsigned short>
+syscall_t<_RetType> syscall(syscall_type type, void* mem, _SyscallNo syscall_num, _StackClean syscall_clean = 0)
+{
+	memcpy(mem, syscall_tpl(type), syscall_size(type)); //每个调用号都有自己的syscall函数内存
+	*(_SyscallNo*)((char*)mem + syscall_no_offset(type)) = syscall_num; //替换模板中的syscall number
+	if(syscall_cl_offset(type))
+		*(_StackClean*)((char*)mem + syscall_cl_offset(type)) = syscall_clean; //如果需要自己清理栈，则填充清理的大小
+	return (syscall_t<_RetType> )mem;
+}
+
 }
 
 #endif//_ARCH_SYSCALLTPL
