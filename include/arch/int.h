@@ -3,6 +3,8 @@
 
 #include <stdint.h>
 
+namespace arch
+{
 /**
  * @brief CPU硬中断
  */
@@ -23,6 +25,7 @@ __attribute__((always_inline)) inline void __sidt(idt* t)
 #endif
 }
 
+}
 }
 
 #endif//_ARCH_INT

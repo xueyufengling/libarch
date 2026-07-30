@@ -4,6 +4,12 @@
 
 using namespace arch;
 
+#if defined(__arch_os_x86_64_win64__)
+const syscall_type arch::host_syscall_type = syscall_type::syscall_type_x86_64_win64;
+#elif defined(__arch_os_x86_win32__)
+const syscall_type arch::host_syscall_type = syscall_type::syscall_type_x86_win32;
+#endif
+
 // syscall_tpl.S导出符号
 #define __decl_syscall_tpl_op__(i, begin_idx, end_idx, const_params, arch_os)\
 	extern "C"\
