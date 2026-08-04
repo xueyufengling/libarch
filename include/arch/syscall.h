@@ -4,7 +4,7 @@
 #include <stdint.h>
 #include <string.h>
 
-#include <ppmp/loop.h>
+#include <ppmp/semantic.h>
 
 #include "arch.h"
 #include "os.h"
@@ -13,19 +13,32 @@ namespace arch
 {
 #define __syscall_types_arch_os__() x86_win32, x86_64_win64
 
-#define __syscall_type_enum_def_op__(i, begin_idx, end_idx, enum_name, arch_os) __cat__(3, enum_name, _, arch_os),
+__enum_def__(0, syscall_type, , __syscall_types_arch_os__())
 
-#define __syscall_type_enum_def__(enum_name, ...)\
-	enum enum_name\
-	{\
-		__for_each__(0)(__syscall_type_enum_def_op__, enum_name, __VA_ARGS__)\
-		__cat__(2, enum_name, _num)\
-	};
+/**
+ * syscall模板的信息，包含
+ * size：函数大小；
+ * no_offset：是调用号偏移量；
+ * cl_offset：栈清理大小；
+ * tpl：syscall函数的模板内容指针。
+ */
+#define __syscall_info_names__() __pack__(size_t, size), __pack__(size_t, no_offset), __pack__(size_t, cl_offset), __pack__(const void*, tpl)
 
-__syscall_type_enum_def__(syscall_type, __syscall_types_arch_os__())
+// syscall_xxx(syscall_type type)系列函数，获取syscall信息
+#define __decl_syscall_info_func_op_intl__(func_prefix, ret_type, info_name)\
+	extern ret_type __cat__(2, func_prefix, info_name)(::arch::syscall_type type) noexcept;
 
-#undef __syscall_type_enum_def__
-#undef __syscall_type_enum_def_op__
+#define __decl_syscall_info_func_op__(i, begin_idx, end_idx, func_prefix, info)\
+	__call_exp__(0)(__decl_syscall_info_func_op_intl__, func_prefix, __unpack__(info))
+
+#define __decl_syscall_info_func__(func_prefix, ...)\
+	__for_each__(0)(__decl_syscall_info_func_op__, func_prefix, __VA_ARGS__)
+
+__decl_syscall_info_func__(syscall_, __syscall_info_names__())
+
+#undef __decl_syscall_info_func__
+#undef __decl_syscall_info_func_op__
+#undef __decl_syscall_info_func_op_intl__
 
 extern const syscall_type host_syscall_type;
 
@@ -42,17 +55,6 @@ typedef long syscall_ret_t;
 #endif
 
 typedef usyscall_t<syscall_ret_t> syscall_t;
-
-/**
- * @brief syscall函数的大小
- */
-extern size_t syscall_size(syscall_type type);
-
-extern size_t syscall_no_offset(syscall_type type);
-
-extern size_t syscall_cl_offset(syscall_type type);
-
-extern const void* syscall_tpl(syscall_type type);
 
 /**
  * @brief 根据调用号在指定内存位置构造一个syscall函数。

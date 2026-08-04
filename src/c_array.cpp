@@ -2,14 +2,14 @@
 
 #include <malloc.h>
 
-array* alloc_array(size_t length)
+c_array* alloc_c_array(size_t length)
 {
-	array* arr = (array*)malloc(length + sizeof(size_t));
-	arr->size = length;
+	c_array* arr = (c_array*)malloc(length + sizeof(size_t));
+	*(size_t*)&(arr->size) = length;
 	return arr;
 }
 
-void free_array(array* arr)
+void free_c_array(c_array* arr)
 {
 	free(arr);
 }

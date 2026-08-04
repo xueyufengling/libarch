@@ -3,6 +3,8 @@ cmake_minimum_required (VERSION 3.10)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED OFF)
 
+# This library is designed for GCC.
+# Lots of GCC-specific features used in code.
 project(arch)
 
 find_package(ppmp REQUIRED)

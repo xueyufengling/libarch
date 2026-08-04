@@ -3,8 +3,7 @@
 
 #include <ppmp/base.h>
 #include <ppmp/list_op.h>
-
-#include "cc.h"
+#include <ppmp/cc.h>
 
 #if !defined(__asm_def_expand_id__)
 #define __asm_def_expand_id__() 0
@@ -13,7 +12,7 @@
 // ***** 内联汇编 *****
 
 // GCC语法
-#if defined(__cc_gcc_compatible__)
+#if defined(__cc_gcc_compat__)
 
 /**
  * 具有约束字符的输入、输出变量声明
@@ -125,6 +124,10 @@
  *			如果out_flag为jmp，则asm_out_list为C/C++的goto跳转标签列表
  */
 #define __asm_inline__(optimize_flag, out_flag) __cat__(4, __asm_inline__, optimize_flag, _, out_flag)
+
+#else
+
+static_assert(false, "inline asm only support gcc")
 
 #endif
 

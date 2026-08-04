@@ -4,7 +4,7 @@
 
 #如果CPU架构不匹配，则只保留符号不生成机器码
 #define __arch_os__() x86_win32
-#include "__syscall_def__"
+#include __syscall_def__()
 #if defined(__arch_x86__) || defined(__arch_x86_64__)
 #stdcall，参数全压栈
 	movl $__syscall_no_placeholder__(), %eax
@@ -21,12 +21,12 @@
 	__syscall_endp__(x86_win32)
 #else
 #define __arch_os__() x86_win32
-#include "__syscall_not_available__"
+#include __syscall_not_available__()
 #endif
 
 #位置无关的syscall调用函数，参考ntdll.dll反汇编结果
 #define __arch_os__() x86_64_win64
-#include "__syscall_def__"
+#include __syscall_def__()
 #if defined(__arch_x86__) || defined(__arch_x86_64__)
 	movq %rcx, %r10																		#Windows调用约定参数为rcx, rdx, r8, r9，剩余参数压栈；syscall调用约定为r10, rdx, r8, r9，剩余参数压栈.因此需要手动将函数参数rcx移入syscall参数寄存器r10
 	movl $__syscall_no_placeholder__(), %eax											#移入调用号
@@ -42,5 +42,5 @@
 	__syscall_endp__(x86_64_win64)
 #else
 #define __arch_os__() x86_64_win64
-#include "__syscall_not_available__"
+#include __syscall_not_available__()
 #endif

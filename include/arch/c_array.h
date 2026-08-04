@@ -5,15 +5,15 @@
 
 extern "C"
 {
-struct array
+struct c_array
 {
-	size_t size;
+	const size_t size;
 	uint8_t data[1]; //数据起始地址，长度为length
 };
 
-__declspec(dllexport) extern array* alloc_array(size_t length);
+__declspec(dllexport) extern c_array* alloc_c_array(size_t length);
 
-__declspec(dllexport) extern void free_array(array* arr);
+__declspec(dllexport) extern void free_c_array(c_array* arr);
 }
 
 #endif //_ARCH_CARRAY

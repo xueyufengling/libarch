@@ -6,6 +6,8 @@
  */
 #include <stdint.h>
 
+#include <ppmp/gccdef.h>
+
 #include "arch.h"
 #include "asm.h"
 
@@ -18,7 +20,8 @@ namespace arch
  * 		  ip寄存器不能直接读写，只能通过jmp写，通过pop读
  */
 #define __rip__(dest)\
-		__asm_inline__(optimized, var)(\
+		__asm_inline__(optimized, var)\
+		(\
 			__asm_list__(),\
 			__asm_list__(__asm_out__(dest, m)),\
 			__asm_list__(),\
@@ -30,7 +33,8 @@ namespace arch
  * @brief jmp指令将C/C++变量值写入ip寄存器
  */
 #define __jmp__(dest)\
-		__asm_inline__(optimized, var)(\
+		__asm_inline__(optimized, var)\
+		(\
 			__asm_list__(),\
 			__asm_list__(),\
 			__asm_list__(__asm_inp__(r, (void*)dest)),\
@@ -43,7 +47,8 @@ namespace arch
  * @param src 要加载的值，可以是立即值或C/C++变量，这些src值都会被加载进临时寄存器，随后再从临时寄存器移入目标位置
  */
 #define __ldb__(dest, src)\
-		__asm_inline__(optimized, var)(\
+		__asm_inline__(optimized, var)\
+		(\
 			__asm_list__(),\
 			__asm_list__(),\
 			__asm_list__(__asm_inp__(r, (uint8_t)src)),\
@@ -51,7 +56,8 @@ namespace arch
 		)
 
 #define __ldw__(dest, src)\
-		__asm_inline__(optimized, var)(\
+		__asm_inline__(optimized, var)\
+		(\
 			__asm_list__(),\
 			__asm_list__(),\
 			__asm_list__(__asm_inp__(r, (uint16_t)src)),\
@@ -59,7 +65,8 @@ namespace arch
 		)
 
 #define __ldl__(dest, src)\
-		__asm_inline__(optimized, var)(\
+		__asm_inline__(optimized, var)\
+		(\
 			__asm_list__(),\
 			__asm_list__(),\
 			__asm_list__(__asm_inp__(r, (uint32_t)src)),\
@@ -67,7 +74,8 @@ namespace arch
 		)
 
 #define __ldq__(dest, src)\
-		__asm_inline__(optimized, var)(\
+		__asm_inline__(optimized, var)\
+		(\
 			__asm_list__(),\
 			__asm_list__(),\
 			__asm_list__(__asm_inp__(r, (uint64_t)src)),\
@@ -80,7 +88,8 @@ namespace arch
  * @param dest 目标位置，必须是C/C++变量
  */
 #define __stb__(dest, src)\
-		__asm_inline__(volatile, var)(\
+		__asm_inline__(volatile, var)\
+		(\
 			__asm_list__(),\
 			__asm_list__(__asm_out__(dest, m)),\
 			__asm_list__(),\
@@ -88,7 +97,8 @@ namespace arch
 		)
 
 #define __stw__(dest, src)\
-		__asm_inline__(volatile, var)(\
+		__asm_inline__(volatile, var)\
+		(\
 			__asm_list__(),\
 			__asm_list__(__asm_out__(dest, m)),\
 			__asm_list__(),\
@@ -96,7 +106,8 @@ namespace arch
 		)
 
 #define __stl__(dest, src)\
-		__asm_inline__(volatile, var)(\
+		__asm_inline__(volatile, var)\
+		(\
 			__asm_list__(),\
 			__asm_list__(__asm_out__(dest, m)),\
 			__asm_list__(),\
@@ -104,7 +115,8 @@ namespace arch
 		)
 
 #define __stq__(dest, src)\
-		__asm_inline__(volatile, var)(\
+		__asm_inline__(volatile, var)\
+		(\
 			__asm_list__(),\
 			__asm_list__(__asm_out__(dest, m)),\
 			__asm_list__(),\
@@ -112,7 +124,8 @@ namespace arch
 		)
 
 #define __stidt__(dest)\
-		__asm_inline__(volatile, var)(\
+		__asm_inline__(volatile, var)\
+		(\
 			__asm_list__(),\
 			__asm_list__(),\
 			__asm_list__(__asm_inp__(r, (void*)dest)),\
@@ -124,7 +137,8 @@ namespace arch
  * 		  有效段寄存器为CS, SS, DS, ES, FS, GS
  */
 #define __stsrb__(dest, sr, off)\
-		__asm_inline__(optimized, var)(\
+		__asm_inline__(optimized, var)\
+		(\
 			__asm_list__(),\
 			__asm_list__(__asm_out__(dest, m)),\
 			__asm_list__(__asm_inp__(m, off)),\
@@ -135,7 +149,8 @@ namespace arch
  * @brief 写段寄存器
  */
 #define __ldsrb__(sr, off, src)\
-		__asm_inline__(optimized, var)(\
+		__asm_inline__(optimized, var)\
+		(\
 			__asm_list__(),\
 			__asm_list__(),\
 			__asm_list__(__asm_inp__(m, off), __asm_inp__(m, (uint8_t)src)),\
@@ -143,7 +158,8 @@ namespace arch
 		)
 
 #define __stsrw__(dest, sr, off)\
-		__asm_inline__(optimized, var)(\
+		__asm_inline__(optimized, var)\
+		(\
 			__asm_list__(),\
 			__asm_list__(__asm_out__(dest, m)),\
 			__asm_list__(__asm_inp__(m, off)),\
@@ -151,7 +167,8 @@ namespace arch
 		)
 
 #define __ldsrw__(sr, off, src)\
-		__asm_inline__(optimized, var)(\
+		__asm_inline__(optimized, var)\
+		(\
 			__asm_list__(),\
 			__asm_list__(),\
 			__asm_list__(__asm_inp__(m, off), __asm_inp__(m, (uint16_t)src)),\
@@ -159,7 +176,8 @@ namespace arch
 		)
 
 #define __stsrl__(dest, sr, off)\
-		__asm_inline__(optimized, var)(\
+		__asm_inline__(optimized, var)\
+		(\
 			__asm_list__(),\
 			__asm_list__(__asm_out__(dest, m)),\
 			__asm_list__(__asm_inp__(m, off)),\
@@ -167,7 +185,8 @@ namespace arch
 		)
 
 #define __ldsrl__(sr, off, src)\
-		__asm_inline__(optimized, var)(\
+		__asm_inline__(optimized, var)\
+		(\
 			__asm_list__(),\
 			__asm_list__(),\
 			__asm_list__(__asm_inp__(m, off), __asm_inp__(m, (uint32_t)src)),\
@@ -175,7 +194,8 @@ namespace arch
 		)
 
 #define __stsrq__(dest, sr, off)\
-		__asm_inline__(optimized, var)(\
+		__asm_inline__(optimized, var)\
+		(\
 			__asm_list__(),\
 			__asm_list__(__asm_outp__(r, dest)),\
 			__asm_list__(__asm_inp__(m, off)),\
@@ -183,7 +203,8 @@ namespace arch
 		)
 
 #define __ldsrq__(sr, off, src)\
-		__asm_inline__(optimized, var)(\
+		__asm_inline__(optimized, var)\
+		(\
 			__asm_list__(),\
 			__asm_list__(),\
 			__asm_list__(__asm_inp__(m, off), __asm_inp__(m, (uint64_t)src)),\
@@ -195,7 +216,8 @@ namespace arch
  * 		  在64位模式下，FS段寄存器和GS段寄存器寻址方式不同，读取GS段寄存器只能使用32位寄存器间接寻址，即使用eax等32位寄存器。且输出也必须是寄存器不能是内存地址。
  */
 #define __stsrq32__(dest, sr, off)\
-		__asm_inline__(optimized, var)(\
+		__asm_inline__(optimized, var)\
+		(\
 			__asm_list__("eax"),\
 			__asm_list__(__asm_outp__(r, dest)),\
 			__asm_list__(__asm_inp__(m, off)),\
@@ -204,7 +226,8 @@ namespace arch
 		)
 
 #define __stsrl32__(dest, sr, off)\
-		__asm_inline__(optimized, var)(\
+		__asm_inline__(optimized, var)\
+		(\
 			__asm_list__("eax"),\
 			__asm_list__(__asm_outp__(r, dest)),\
 			__asm_list__(__asm_inp__(m, off)),\
@@ -221,7 +244,8 @@ namespace arch
  */
 #if defined(__arch_x86_64__) || defined(__arch_x86__)
 #define __cmpxchgb__(dest, expected, src, prev)\
-		__asm_inline__(volatile, var)(\
+		__asm_inline__(volatile, var)\
+		(\
 				__asm_list__("memory", "cc"),\
 				__asm_list__(__asm_inout__(dest, m), __asm_out__(prev, m)),\
 				__asm_list__(__asm_in__(expected, a), __asm_in__(src, r)),\
@@ -230,7 +254,8 @@ namespace arch
 		)
 
 #define __casb__(dest, expected, src, success)\
-		__asm_inline__(volatile, var)(\
+		__asm_inline__(volatile, var)\
+		(\
 				__asm_list__("memory", "cc"),\
 				__asm_list__(__asm_inout__(dest, m), __asm_out__(success, m)),\
 				__asm_list__(__asm_in__(expected, a), __asm_in__(src, r)),\
@@ -239,7 +264,8 @@ namespace arch
 		)
 
 #define __cmpxchgw__(dest, expected, src, prev)\
-		__asm_inline__(volatile, var)(\
+		__asm_inline__(volatile, var)\
+		(\
 				__asm_list__("memory", "cc"),\
 				__asm_list__(__asm_inout__(dest, m), __asm_out__(prev, m)),\
 				__asm_list__(__asm_in__(expected, a), __asm_in__(src, r)),\
@@ -248,7 +274,8 @@ namespace arch
 		)
 
 #define __casw__(dest, expected, src, success)\
-		__asm_inline__(volatile, var)(\
+		__asm_inline__(volatile, var)\
+		(\
 				__asm_list__("memory", "cc"),\
 				__asm_list__(__asm_inout__(dest, m), __asm_out__(success, m)),\
 				__asm_list__(__asm_in__(expected, a), __asm_in__(src, r)),\
@@ -257,7 +284,8 @@ namespace arch
 		)
 
 #define __cmpxchgl__(dest, expected, src, prev)\
-		__asm_inline__(volatile, var)(\
+		__asm_inline__(volatile, var)\
+		(\
 				__asm_list__("memory", "cc"),\
 				__asm_list__(__asm_inout__(dest, m), __asm_out__(prev, m)),\
 				__asm_list__(__asm_in__(expected, a), __asm_in__(src, r)),\
@@ -266,7 +294,8 @@ namespace arch
 		)
 
 #define __casl__(dest, expected, src, success)\
-		__asm_inline__(volatile, var)(\
+		__asm_inline__(volatile, var)\
+		(\
 				__asm_list__("memory", "cc"),\
 				__asm_list__(__asm_inout__(dest, m), __asm_out__(success, m)),\
 				__asm_list__(__asm_in__(expected, a), __asm_in__(src, r)),\
@@ -275,7 +304,8 @@ namespace arch
 		)
 
 #define __cmpxchgq__(dest, expected, src, prev)\
-		__asm_inline__(volatile, var)(\
+		__asm_inline__(volatile, var)\
+		(\
 				__asm_list__("memory", "cc"),\
 				__asm_list__(__asm_inout__(dest, m), __asm_out__(prev, m)),\
 				__asm_list__(__asm_in__(expected, a), __asm_in__(src, r)),\
@@ -284,7 +314,8 @@ namespace arch
 		)
 
 #define __casq__(dest, expected, src, success)\
-		__asm_inline__(volatile, var)(\
+		__asm_inline__(volatile, var)\
+		(\
 				__asm_list__("memory", "cc"),\
 				__asm_list__(__asm_inout__(dest, m), __asm_out__(success, m)),\
 				__asm_list__(__asm_in__(expected, a), __asm_in__(src, r)),\

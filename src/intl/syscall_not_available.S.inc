@@ -1,4 +1,4 @@
-#include "syscall_defs.h"
+#include "../syscall_defs.h"
 
 /**
  * 当前不是目标CPU架构时，将导出的模板数据全部置零

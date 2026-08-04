@@ -1,4 +1,4 @@
-#include "syscall_defs.h"
+#include "../syscall_defs.h"
 
 /**
  * 定义.rodata的导出数据，如果在全局数组中静态初始化，需要手动指定.type和.size，否则编译时找不到直接填0

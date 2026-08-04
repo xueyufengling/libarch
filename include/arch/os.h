@@ -5,11 +5,13 @@
 
 // ***** 操作系统 *****
 
+// Windows
 #if defined (_WIN32)
 
 #define __os_win__ 1
 #define __os_page_size__ 4096
 
+// 64位Windows
 #if defined (_WIN64)
 
 #define __os_win64__ 1
@@ -24,17 +26,22 @@
 
 #endif
 
+// Linux
 #if defined(__unix__) || defined(__unix) || defined(unix)
 
 #define __os_unix__ 1
 #define __os_page_size__ 4096
 
 #if defined(__arch_x86_32__) || defined(__arch_aarch_32__)
+
 #define __os_unix32__ 1
 #define __lp_size__ 4
+
 #elif defined(__arch_x86_64__) || defined(__arch_aarch_64__) || defined(__arch_powerpc_64__) || defined(__arch_alpha__)
+
 #define __os_unix64__ 1
 #define __lp_size__ 8
+
 #endif
 
 #endif
