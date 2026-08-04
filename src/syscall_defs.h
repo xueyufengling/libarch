@@ -37,8 +37,8 @@
 #define __win_kuser_shared_data__() 0x7FFE0300
 #define __win_syscall_test_offset__() 8
 
-#define __syscall_def__() "intl/syscall_def.S.inc"
+#define __syscall_def__() "incl/syscall_def.S.inc"
 
-#define __syscall_not_available__() "intl/syscall_not_available.S.inc"
+#define __syscall_not_available__() "incl/syscall_not_available.S.inc"
 
 #endif //_ARCH_SYSCALLDEFS
